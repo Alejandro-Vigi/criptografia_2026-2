@@ -49,7 +49,9 @@ def descifrar(mensaje, recorrido):
         mensaje_descifrado+=letras[letras_codificado[letra]]
     return mensaje_descifrado
 
-mensaje_cifrado = cifrar("HOLA", 3) # Pasa un mensaje y el numero de posiciones a recorrer
+mensaje_original = input("Introduce la palabra que quieres cifrar (únicamente se aceptan letras: en mayúscula, sin acentos -> A-Z): ")
+recorrido = int(input("\nIntroduce la cantidad de posiciones que deseas recorrer: "))
+mensaje_cifrado = cifrar(mensaje_original,recorrido)
 print("Mensaje Cifrado:", mensaje_cifrado) # Imprime el mensaje cifrado.
-mensaje_descifrado = descifrar(mensaje_cifrado, 3)
+mensaje_descifrado = descifrar(mensaje_cifrado, recorrido)
 print("Mensaje Descifrado:", mensaje_descifrado)
