@@ -3,15 +3,15 @@ import string
 def quitar_reptidos(cadena):
     return "".join(dict.fromkeys(cadena))
 
-def insertar_clave(clave):
+def insertar_llave(llave):
     letras = string.ascii_uppercase # Crea un arreglo con todas las letras.
     letras = letras.replace('J', "")
-    clave = clave.replace('J','I')
-    clave = quitar_reptidos(clave)
+    llave = llave.replace('J','I')
+    llave = quitar_reptidos(llave)
     matriz_recorrida = [[0 for col in range(5)] for row in range(5)]
     i = 0
     j = 0
-    for letra in clave:
+    for letra in llave:
         if i == 5:
             i = 0
             j += 1
@@ -25,15 +25,14 @@ def insertar_clave(clave):
         matriz_recorrida[j][i] = letra
         letras = letras.replace(letra, "")
         i += 1
-    print(letras)
     return matriz_recorrida
 
 def prep_mensaje(mensaje_original):
     mensaje_procesado = ""
     aux =""
+    mensaje_original = mensaje_original.replace('J','I')
     if(len(mensaje_original)%2 == 1):
         mensaje_original += 'X'
-    print(mensaje_original)
     for i in range(len(mensaje_original)):
         aux += mensaje_original[i]
         if(len(aux) == 2):
@@ -73,12 +72,43 @@ def cifrar(matriz,mensaje):
             aux=""
     return mensaje_cifrado
 
-mensaje = "HELLOWORLD"
-clave = "SILLA"
+def descifrar(matriz,mensaje):
+    posiciones = {matriz[f][c]: (f, c) for f in range(5) for c in range(5)}
+    mensaje_descifrado = ""
+    aux = ""
+    for i in range(len(mensaje)):
+        aux += mensaje[i]
+        if(i%2==1):
+            l1 = aux[0]
+            l2 = aux[1]
+            f1, c1 = posiciones[l1]
+            f2, c2 = posiciones[l2]
+            if(f1==f2):
+                l1_new = matriz[f1][c1-1]
+                l2_new = matriz[f2][c2-1]
+            elif(c1==c2):
+                l1_new = matriz[f1-1][c1]
+                l2_new = matriz[f2-1][c2]
+            else:
+                l1_new = matriz[f1][c2]
+                l2_new = matriz[f2][c1]
+            mensaje_descifrado += l1_new
+            mensaje_descifrado += l2_new
+            aux=""
+    return mensaje_descifrado
 
-matriz_recorrida = insertar_clave(clave)
+mensaje = input("Introduce la palabra que quieres cifrar (únicamente se aceptan letras: en mayúscula, sin acentos -> A-Z): ")
+llave = input("Introduce la llave (únicamente se aceptan letras: en mayúscula, sin acentos -> A-Z): ")
+
+print(f"El mensaje que se desea cifrar es: {mensaje}")
+matriz_recorrida = insertar_llave(llave)
 # print(matriz_recorrida)
+
 mensaje_adaptado = prep_mensaje(mensaje)
-print(mensaje_adaptado)
+print(f"El mensaje adaptado a las restricciones del cifrado de Playfair es: {mensaje_adaptado}")
+
 mensaje_cifrado = cifrar(matriz_recorrida,mensaje_adaptado)
-print(mensaje_cifrado)
+print(f"El mensaje cifrado que se recibe es: {mensaje_cifrado}")
+
+mensaje_descifrado = descifrar(matriz_recorrida,mensaje_cifrado)
+print(f"El mensaje descifrado es: {mensaje_descifrado}")
