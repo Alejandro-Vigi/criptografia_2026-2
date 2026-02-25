@@ -1,0 +1,35 @@
+import string
+
+def quitar_reptidos(cadena):
+    return "".join(dict.fromkeys(cadena))
+
+def insertar_clave(clave):
+    letras = string.ascii_uppercase # Crea un arreglo con todas las letras.
+    letras = letras.replace('J', "")
+    clave = clave.replace('J','I')
+    clave = quitar_reptidos(clave)
+    matriz_recorrida = [[0 for col in range(5)] for row in range(5)]
+    i = 0
+    j = 0
+    for letra in clave:
+        if i == 5:
+            i = 0
+            j += 1
+        matriz_recorrida[j][i] = letra
+        letras = letras.replace(letra, "")
+        i += 1
+    for letra in letras:
+        if i == 5:
+            i = 0
+            j += 1
+        matriz_recorrida[j][i] = letra
+        letras = letras.replace(letra, "")
+        i += 1
+    print(letras)
+    return matriz_recorrida
+
+mensaje = "HELLOWORLD"
+clave = "JIUTEPEC"
+
+matriz_recorrida = insertar_clave(clave)
+print(matriz_recorrida)
