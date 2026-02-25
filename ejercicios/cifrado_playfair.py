@@ -28,8 +28,26 @@ def insertar_clave(clave):
     print(letras)
     return matriz_recorrida
 
+def prep_mensaje(mensaje_original):
+    mensaje_procesado = ""
+    aux =""
+    if(len(mensaje_original)%2 == 1):
+        mensaje_original += 'X'
+    print(mensaje_original)
+    for i in range(len(mensaje_original)):
+        aux += mensaje_original[i]
+        if(len(aux) == 2):
+            if(aux[0]==aux[1]):
+                temp = aux[0]
+                aux = temp + 'X'
+            mensaje_procesado += aux
+            aux=""
+    return mensaje_procesado
+
 mensaje = "HELLOWORLD"
-clave = "JIUTEPEC"
+clave = "SILLA"
 
 matriz_recorrida = insertar_clave(clave)
 print(matriz_recorrida)
+mensaje_adaptado = prep_mensaje(mensaje)
+print(mensaje_adaptado)
